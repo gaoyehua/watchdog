@@ -3,6 +3,7 @@ package com.gaoyehau.watchdog;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -218,16 +219,31 @@ public class SpalshActivity extends Activity {
 
     }
 
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spalsh);
+        sp = getSharedPreferences("config", MODE_PRIVATE);
         TextView tv_spalsh_versionname= (TextView)
                 findViewById(R.id.tv_splash_versionname);
         tv_spalsh_versionname.setText("版本号："+getVersionName());
 
-        update();
+        if (sp.getBoolean("update", true)) {
+            update();
+        }else{
+            //跳转到主界面
+            //不能让主线程去睡两秒钟
+            //主线程是有渲染界面的操作,主线程睡两秒钟就没有办法去渲染界面
+            new Thread(){
+                public void run() {
+                    SystemClock.sleep(2000);
+                    enterhome();
+                };
+            }.start();
+        }
+
     }
    /*
     *获取应用的版本号
