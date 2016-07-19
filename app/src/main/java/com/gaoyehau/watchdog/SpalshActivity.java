@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ public class SpalshActivity extends Activity {
     protected static final int MSG_URL_ERROR = 4;
     protected static final int MSG_IO_ERROR = 5;
     protected static final int MSG_JSON_ERROR = 6;
+    private static final String TAG = "SpalshActivity";
     private String code;
     private String apkurl;
     private String des;
@@ -186,6 +189,9 @@ public class SpalshActivity extends Activity {
                       }
                   }
                   else {
+
+
+                      Log.i(TAG,"服务器连接失败...");
                           System.out.println("服务器连接失败...");
                           message.what =    MSG_SERVER_ERROR;
                       }

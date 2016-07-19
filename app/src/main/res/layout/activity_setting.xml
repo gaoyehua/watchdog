@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:watchdog="http://schemas.android.com/apk/com.gaoyehau.watchdog"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/textView1"
@@ -20,7 +24,8 @@
         android:id="@+id/sv_setting_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        watchdog:title1="提示更新"
+        watchdog:des_on="打开提示更新"
+        watchdog:des_off="关闭提示更新"
         ></com.gaoyehua.ui.SettingView>
-
 </LinearLayout>

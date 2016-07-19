@@ -16,6 +16,8 @@ public class SettingView extends RelativeLayout {
     private TextView tv_setting_title;
     private TextView tv_setting_des;
     private CheckBox cb_setting_update;
+    private String des_on;
+    private String des_off;
     //在代码中使用设置
 
     public SettingView(Context context) {
@@ -26,11 +28,27 @@ public class SettingView extends RelativeLayout {
     public SettingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
+        //自定义控件设置相应的值
+        String title1 =attrs.
+                getAttributeValue("http://schemas.android.com/apk/res/com.gaoyehau.watchdog","title1");
+        String des_on = attrs.
+           getAttributeValue("http://schemas.android.com/apk/res/com.gaoyehau.watchdog","des_on");
+        String des_ff =attrs.
+           getAttributeValue("http://schemas.android.com/apk/res/com.gaoyehau.watchdog","des_off");
+        //初始化控件的值
+        tv_setting_title.setText(title1);
+        if(isChecked()){
+            tv_setting_des.setText(des_on);
+        }else{
+            tv_setting_des.setText(des_ff);
+        }
+
     }
     //也是布局中，多了一个参数
     public SettingView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
+            super(context, attrs, defStyleAttr);
+            init();
+
     }
 
     /*
@@ -63,6 +81,12 @@ public class SettingView extends RelativeLayout {
     public void setChecked(boolean isChecked) {
         //勾选框的状态
         cb_setting_update.setChecked(isChecked);
+
+     //   if (isChecked()) {
+      //      tv_setting_des.setText(des_on);
+      //  }else{
+       //     tv_setting_des.setText(des_off);
+       // }
     }
     //获取勾选框的状态
     public boolean isChecked() {
