@@ -2,7 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gaoyehau.watchdog">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +17,7 @@
         <activity android:name=".SpalshActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+SS
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -23,6 +28,21 @@
         <activity android:name=".SetUp2Activity"></activity>
         <activity android:name=".SetUp3Activity"></activity>
         <activity android:name=".SetUp4Activity"></activity>
+        <activity android:name=".ContactActivity"></activity>
+        <activity android:name=".SetUpBaseActivity"></activity>
+        <receiver android:name="com.gaoyehua.receiver.BootCompleteReceiver">
+            <intent-filter
+                android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED">
+                </action>
+            </intent-filter>
+
+        </receiver>
+        <receiver android:name="com.gaoyehua.receiver.SmsReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

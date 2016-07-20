@@ -4,18 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="2.手机卡绑定"
-        android:textSize="25dp"
-        android:background="#8866ff00"
-        android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#000000"
-        />
+    sDF
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
