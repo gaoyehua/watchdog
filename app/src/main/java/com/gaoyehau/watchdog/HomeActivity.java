@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
+
 /**
  * Created by 高业华 on 2016/7/16.
  */
@@ -51,6 +53,11 @@ public class HomeActivity extends Activity {
                         }
 
                         break;
+                    case 7://高级工具
+                        Intent intent1 =new Intent(HomeActivity.this,AtoolsActivity.class);
+                        startActivity(intent1);
+                        break;
+
                     case 8: //设置中心
                         Intent intent =new Intent(HomeActivity.this,SettingActivity.class);
                         startActivity(intent);

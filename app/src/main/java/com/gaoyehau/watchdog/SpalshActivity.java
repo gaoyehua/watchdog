@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +24,8 @@ import com.gaoyehua.utils.StreamUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -149,7 +152,7 @@ public class SpalshActivity extends Activity {
               try {
                   //1.链接服务器
                   //2.设置路径
-                  URL url =new URL("http://127.0.0.1/data.html");
+                  URL url =new URL("http://127.0.0.1:80/data.html");
                   //3.获取链接操作
                   HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                   //http协议
@@ -249,8 +252,60 @@ public class SpalshActivity extends Activity {
                 };
             }.start();
         }
+        copyDb();
+    }
+
+    /*
+    拷贝数据库的操作
+     */
+    private void copyDb() {
+        File file =new File(getFilesDir(),"address.db");
+        //获得文件的目录
+        if(!file.exists()){
+            //从assets目录下获取数据库
+            //1.获asset的管理者
+            AssetManager am =getAssets();
+            InputStream in =null;
+            FileOutputStream out =null;
+
+            try {
+                //2.读取和数据库
+                in =am.open("address.db");
+                //3.写入流
+                out = new FileOutputStream(file);
+                //4.读写操作
+                //设置缓冲区
+                byte[] b =new byte[1024];
+                int len = -1;
+                while ((len=in.read(b)) !=-1){
+
+                    out.write(b,0,len);
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                //关流
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
 
     }
+
+
+
    /*
     *获取应用的版本号
    *
