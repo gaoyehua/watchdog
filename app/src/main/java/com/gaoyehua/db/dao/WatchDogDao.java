@@ -3,10 +3,12 @@ package com.gaoyehua.db.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import com.gaoyehua.db.WatchDogOpenHelper;
 
@@ -35,6 +37,14 @@ public class WatchDogDao {
 			ContentValues values = new ContentValues();
 			values.put("packagename", packageName);
 			database.insert(WatchDogOpenHelper.DB_NAME, null, values);
+
+		    //通知内容观察者数据库发生变化
+		    ContentResolver contentResolver =context.getContentResolver();
+		    //因为是我们自己的内容发生变化，所以需要定义一个UIR
+		    Uri uri =Uri.parse("content://com.gaoyehau.watchdog.lock.changed");
+		    //通知内容观察者数据发生变化
+		    contentResolver.notifyChange(uri,null);
+
 			//3.关闭数据库
 			database.close();
 //		}
@@ -77,6 +87,14 @@ public class WatchDogDao {
 		//whereClause : 查询的条件
 		//whereArgs : 查询条件的参数
 		database.delete(WatchDogOpenHelper.DB_NAME, "packagename=?", new String[]{packagename});
+
+		//通知内容观察者数据库发生变化
+		ContentResolver contentResolver =context.getContentResolver();
+		//因为是我们自己的内容发生变化，所以需要定义一个UIR
+		Uri uri =Uri.parse("content://com.gaoyehau.watchdog.lock.changed");
+		//通知内容观察者数据发生变化
+		contentResolver.notifyChange(uri,null);
+
 		//3.关闭数据库
 		database.close();
 	}

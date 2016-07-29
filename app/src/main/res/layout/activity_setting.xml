@@ -51,5 +51,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ></com.gaoyehua.ui.SettingClinckView>
+    <com.gaoyehua.ui.SettingView
+        android:id="@+id/sv_setting_lock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        watchdog:title1="软件锁"
+        watchdog:des_on="打开隐私保护"
+        watchdog:des_off="关闭隐私保护"
+        ></com.gaoyehua.ui.SettingView>
 </LinearLayout>
 </ScrollView>

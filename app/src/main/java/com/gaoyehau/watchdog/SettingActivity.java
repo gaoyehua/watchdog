@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.gaoyehua.service.AddressService;
+import com.gaoyehua.service.WatchDogService;
 import com.gaoyehua.ui.SettingClinckView;
 import com.gaoyehua.ui.SettingView;
 import com.gaoyehua.utils.AddressUtils;
@@ -25,6 +26,7 @@ public class SettingActivity extends Activity {
     private SettingClinckView  scv_setting_changedbk;
     private SettingClinckView  scv_setting_location;
     private SharedPreferences sp;
+    private SettingView sv_setting_lock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class SettingActivity extends Activity {
         sv_setting_address =(SettingView) findViewById(R.id.sv_setting_address);
         scv_setting_changedbk = (SettingClinckView) findViewById(R.id.scv_setting_changebdk);
         scv_setting_location =(SettingClinckView) findViewById(R.id.scv_setting_location);
+        sv_setting_lock =(SettingView) findViewById(R.id.sv_setting_lock);
         //
         update();
         //
@@ -58,7 +61,7 @@ public class SettingActivity extends Activity {
             }
         });
     }
-    //设置提示框风格
+    //设置提示框的风格
     private void changdbk() {
         final String[] items={"半透明","活力橙","卫士蓝","金属灰","苹果绿"};
         //设置标题和描述信息
@@ -99,6 +102,63 @@ public class SettingActivity extends Activity {
     protected void onStart() {
         super.onStart();
         address();
+        lock();
+    }
+
+    /*
+    软件锁
+
+     */
+    private void lock() {
+
+        //初始化自定义控件
+        sv_setting_lock.setTitle("软件锁");
+
+        //动态的获取服务是否开启
+        if(AddressUtils.isRunningService("com.gaoyehua.service.WatchDogService",
+                getApplicationContext())){
+
+            //开启服务
+            sv_setting_lock.setDes("打开隐私保护");
+            sv_setting_lock.setChecked(true);
+        }else {
+            //关闭服务
+            sv_setting_lock.setDes("关闭隐私保护");
+            sv_setting_lock.setChecked(false);
+        }
+
+
+        //设置自定义控件的点击事件
+
+        sv_setting_lock.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor edit = sp.edit();
+                //更改状态
+                //根据checkbox之前的状态来改变checkbox的状态
+                Intent inntent =new Intent(SettingActivity.this,WatchDogService.class);
+                if (sv_setting_lock.isChecked()) {
+                    //关闭服务
+                    stopService(inntent);
+                    sv_setting_lock.setDes("关闭隐私保护");
+                    sv_setting_lock.setChecked(false);
+                    //保存状态
+                    edit.putBoolean("update", false);
+                    //edit.apply();//保存到文件中,但是仅限于9版本之上,9版本之下保存到内存中的
+                }else{
+                    //打开提示更新
+                    startService(inntent);
+                    sv_setting_lock.setDes("打开隐私保护");
+                    sv_setting_lock.setChecked(true);
+                    //保存状态
+                    edit.putBoolean("update", true);
+                }
+                edit.commit();
+            }
+        });
+
+
     }
 
     /*

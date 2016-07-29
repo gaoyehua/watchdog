@@ -56,6 +56,11 @@
         <activity android:name=".CallSmsSafe"></activity>
         <activity android:name=".SoftManagerActivity"></activity>
         <activity android:name=".TaskActivity"></activity>
+        <activity android:name=".WatchdogActivity"
+            android:launchMode="singleInstance"
+            android:excludeFromRecents ="true"
+            >
+        </activity>
         <activity android:name=".DragViewActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
