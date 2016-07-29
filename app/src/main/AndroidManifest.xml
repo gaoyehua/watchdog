@@ -12,6 +12,19 @@
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,11 +34,15 @@
         <activity android:name=".SpalshActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-SS
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity">
+            <intent-filter>
+                <action android:name="com.gaoyehau.watchdog.home"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".SettingActivity"></activity>
         <activity android:name=".SetUp1Activity"></activity>
         <activity android:name=".LostFindActivity"></activity>
@@ -36,6 +53,12 @@ SS
         <activity android:name=".SetUpBaseActivity"></activity>
         <activity android:name=".AtoolsActivity"></activity>
         <activity android:name=".AddressActivity"></activity>
+        <activity android:name=".CallSmsSafe"></activity>
+        <activity android:name=".SoftManagerActivity"></activity>
+        <activity android:name=".TaskActivity"></activity>
+        <activity android:name=".DragViewActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
         <receiver android:name="com.gaoyehua.receiver.BootCompleteReceiver">
             <intent-filter
                 android:priority="1000">
@@ -62,7 +85,21 @@ SS
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name="com.gaoyehua.receiver.MyWidget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/example_appwidget_info" />
+        </receiver>
+
         <service android:name="com.gaoyehua.service.GpsService"></service>
+        <service android:name="com.gaoyehua.service.AddressService"></service>
+        <service android:name="com.gaoyehua.service.WidgetService"></service>
+        <service android:name="com.gaoyehua.service.WatchDogService"></service>
     </application>
 
 </manifest>

@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +21,7 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gaoyehua.service.AddressService;
 import com.gaoyehua.utils.StreamUtil;
 
 import org.json.JSONException;
@@ -252,7 +255,45 @@ public class SpalshActivity extends Activity {
                 };
             }.start();
         }
+        //加载数据库
         copyDb();
+        //打开服务
+        Intent intent =new Intent(this, AddressService.class);
+        startService(intent);
+        ////创建快捷方式
+        addShortcutToDesktop();
+        Log.i("data","创建快捷方式");
+    }
+
+    /**
+     * 创建快捷方式
+     */
+    private void addShortcutToDesktop() {
+
+        Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+
+        // 不允许重建
+
+        shortcut.putExtra("duplicate", false);
+
+        // 设置名字
+
+        shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME,this.getString(R.string.app_name));
+
+        // 设置图标
+
+        shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,Intent.ShortcutIconResource.fromContext(this,
+
+                R.mipmap.ic_launcher));
+
+        // 设置意图和快捷方式关联程序
+
+        shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT,new Intent(this, this.getClass()).setAction(Intent.ACTION_MAIN));
+
+        // 发送广播
+
+        sendBroadcast(shortcut);
+
     }
 
     /*
